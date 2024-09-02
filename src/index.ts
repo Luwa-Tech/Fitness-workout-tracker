@@ -1,10 +1,10 @@
-import express, {Request, Response} from 'express';
+import express, { Request, Response } from 'express';
 import 'dotenv/config';
 import 'reflect-metadata';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dataSource from './config/data-source';
-import {logger} from './log/logger';
+import { logger } from './log/logger';
 
 const server = express();
 const PORT = 5000;
