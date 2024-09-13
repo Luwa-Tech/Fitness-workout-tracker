@@ -45,12 +45,28 @@ export class UserController {
 
     public loginUser = async (req: Request, res: Response): Promise<void> => {
         logger.info(`Incoming request at ${req.path}`);
-        const user = res.locals.user;
+        const data = matchedData(req);
         try {
-            const token = jwt.sign({ id: user._id, email: user.email }, accessKey as Secret);
 
-            logger.info(`User with id ${user._id} is logged in`);
-            res.cookie('access_token', token, { httpOnly: true }).status(200).json({ 'message': 'Logged in successfully' });
+            const user = await this.userService.findUser(data.email);
+            if (!user) {
+                logger.warn('Login attempt failed: User is not found');
+                res.status(404).json({ 'message': 'Login failed: User does not exist' });
+                return;
+            }
+
+            const match = await bcrypt.compare(data.password, user.password);
+            if (!match) {
+                logger.warn('Login attempt failed: Passwords do not match');
+                res.status(401).json({ 'message': 'Invalid password' });
+            }
+
+            if (accessKey) {
+                const token = jwt.sign({ id: user.id, email: user.email }, accessKey);
+
+                logger.info(`User with id ${user.id} is logged in`);
+                res.cookie('access_token', token, { httpOnly: true }).status(200).json({ 'message': 'User logged in' });
+            }
 
         } catch (error) {
             logger.error('Server error:', error);

@@ -1,6 +1,6 @@
-import "reflect-metadata";
-import { DataSource } from "typeorm";
-import { dbName, dbPassword, dbHost, dbPort, dbUsername } from "../env-variables";
+import 'reflect-metadata';
+import { DataSource } from 'typeorm';
+import { dbName, dbPassword, dbHost, dbPort, dbUsername } from '../env-variables';
 
 const dataSource = new DataSource({
     type: "mysql",
