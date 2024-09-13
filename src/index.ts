@@ -1,10 +1,11 @@
-import express, {Request, Response} from 'express';
+import express from 'express';
 import 'dotenv/config';
 import 'reflect-metadata';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dataSource from './config/data-source';
-import {logger} from './log/logger';
+import { logger } from './log/logger';
+import userRoute from './route/user-route';
 
 const server = express();
 const PORT = 5000;
@@ -14,9 +15,7 @@ server.use(cookieParser());
 server.use(express.static('public'));
 server.use(express.json());
 
-server.use('/', (req: Request, res: Response) => {
-    res.send('Hello, world')
-})
+server.use('/api/v1', userRoute);
 
 dataSource.initialize()
     .then(() => {
