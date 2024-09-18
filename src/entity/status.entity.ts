@@ -1,5 +1,5 @@
 import { Entity, Column, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Workout } from './workout.entity';
+import { Workout_log } from './workout_log.entity';
 
 @Entity()
 export class Status {
@@ -9,6 +9,6 @@ export class Status {
     @Column()
     name: string;
 
-    @OneToMany(() => Workout, workout => workout.status)
-    workouts: Workout[]; 
+    @OneToMany(() => Workout_log, log => log.status)
+    workout_logs: Workout_log[]; 
 }

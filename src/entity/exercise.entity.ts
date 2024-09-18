@@ -1,5 +1,6 @@
-import { Entity, Column, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Workout } from './workout.entity';
+import { Entity, Column, ManyToMany, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Category } from './category.entity';
+import { User_workout } from './user_workout.entity';
 
 @Entity()
 export class Exercise {
@@ -9,9 +10,15 @@ export class Exercise {
     @Column()
     name: string;
 
-    @Column({type: 'text'})
+    @Column({ type: 'text' })
     description: string;
 
-    @ManyToMany(() => Workout, workout => workout.exercises)
-    workouts: Workout[];
+    @OneToMany(() => User_workout, workout => workout.exercise)
+    user_workouts: User_workout[];
+
+    @ManyToOne(() => Category, category => category.exercises)
+    category: Category;
+
+    // @ManyToMany(() => Workout_plan, workout => workout.exercises)
+    // workouts: Workout_plan[];
 }
