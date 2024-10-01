@@ -8,7 +8,7 @@ export class Workout_schedule {
     id: number;
 
     @Column()
-    start_date: string;
+    start_date: Date;
 
     @Column()
     end_date: Date;

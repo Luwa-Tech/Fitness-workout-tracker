@@ -13,8 +13,3 @@ export default class SeedCategories implements Seeder {
           .execute()
       }
 };
-
-//Try importing the ormconfig file, initialize it and use it here
-// instead of using import from typeorm
-
-// factory: Factory, dataSource: DataSource
