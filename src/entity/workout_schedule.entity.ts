@@ -2,6 +2,8 @@ import { Entity, Column, ManyToOne, PrimaryGeneratedColumn, OneToMany } from 'ty
 import { User } from './user.entity';
 import { Workout_log } from './workout_log.entity';
 
+// Implement during schedule feature
+
 @Entity()
 export class Workout_schedule {
     @PrimaryGeneratedColumn()
@@ -17,6 +19,6 @@ export class Workout_schedule {
     user: User;
 
     // Evaluate relation
-    @OneToMany(() => Workout_log, log => log.workout_schedule)
-    workout_logs: Workout_log[];
+    // @OneToMany(() => Workout_log, log => log.workout_schedule)
+    // workout_logs: Workout_log[];
 }

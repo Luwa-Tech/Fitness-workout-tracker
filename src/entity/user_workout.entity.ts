@@ -7,15 +7,15 @@ export class User_workout {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => Workout_plan, plan => plan.user_workouts, { onDelete: 'CASCADE' })
-    plan: Workout_plan;
-
-    @ManyToOne(() => Exercise, exercise => exercise.user_workouts)
-    exercise: Exercise;
-
     @Column()
     sets: number;
 
     @Column()
     reps: number;
-}
+
+    @ManyToOne(() => Workout_plan, plan => plan.user_workouts, { onDelete: 'CASCADE' })
+    plan: Workout_plan;
+
+    @ManyToOne(() => Exercise, exercise => exercise.user_workouts)
+    exercise: Exercise;
+};

@@ -18,7 +18,4 @@ export class Exercise {
 
     @ManyToOne(() => Category, category => category.exercises)
     category: Category;
-
-    // @ManyToMany(() => Workout_plan, workout => workout.exercises)
-    // workouts: Workout_plan[];
 }

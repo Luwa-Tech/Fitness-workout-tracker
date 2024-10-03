@@ -31,8 +31,4 @@ export class Workout_plan {
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
     updated_at: Date;
-
-    // @ManyToMany(() => Exercise, exercise => exercise.workouts)
-    // @JoinTable({ name: 'workout-exercises' })
-    // exercises: Exercise[];
 }

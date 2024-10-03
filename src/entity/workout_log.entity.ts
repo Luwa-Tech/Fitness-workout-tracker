@@ -31,6 +31,6 @@ export class Workout_log {
     @ManyToOne(() => Status, status => status.workout_logs)
     status: Status;
 
-    @ManyToOne(() => Workout_schedule, schedule => schedule.workout_logs)
-    workout_schedule: Workout_schedule;
+    // @ManyToOne(() => Workout_schedule, schedule => schedule.workout_logs)
+    // workout_schedule: Workout_schedule;
 }
