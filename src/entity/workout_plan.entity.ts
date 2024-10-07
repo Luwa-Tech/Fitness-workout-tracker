@@ -4,7 +4,7 @@ import { Workout_log } from './workout_log.entity';
 import { User_workout } from './user_workout.entity';
 
 @Entity()
-export class Workout_plan {
+export class WorkoutPlan {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -20,7 +20,7 @@ export class Workout_plan {
     @ManyToOne(() => User, user => user.workouts)
     user: User;
 
-    @OneToMany(() => User_workout, workout => workout.plan, { cascade: ['remove'], onDelete: 'CASCADE' })
+    @OneToMany(() => User_workout, workout => workout.plan, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
     user_workouts: User_workout[];
 
     @OneToMany(() => Workout_log, log => log.workout_plan)
