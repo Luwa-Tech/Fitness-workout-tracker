@@ -1,0 +1,22 @@
+USER STORIES:
+
+User should be able to:
+1 - Sign up and login to their accounts.
+2 - Create multiple workout plans consisting of multiple exercises and perform
+    CRUD operations.
+3 - Create workout schedules for each workout plans they create.
+4 - Log the outcome of each workout session for a particular workout plan.
+    example - completed sets and reps, is the session missed or completed.
+5 - Get reports of past workout sessions and progress comparisons.
+
+
+USER FLOW:
+
+1 - User creates an account and logs in.
+2 - Creates a workout plan.
+3 - Creates a schedule date for that plan
+4 - Starts workout plan
+5 - At the end of each workout session, user logs in the outcome, either missed 
+    or completed (system implementation).
+6 - After a week or two of created workout plan - user gets a report of workout 
+    progress and analysis. 
