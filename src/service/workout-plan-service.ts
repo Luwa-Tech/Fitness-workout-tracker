@@ -75,35 +75,44 @@ export class WorkoutPlanService {
 
             const result = await this.workoutPlanRepo.remove(plan);
             return result;
-            
+
         } catch (error) {
-            logger.error('Could not delete workout plan');
-            return null
+            logger.error('Could not delete workout plan', error);
+            throw error;
         }
 
     }
-    
-    public getOne = async (planId: number): Promise<WorkoutPlan | null> => {
-        const result = await this.workoutPlanRepo
-        .createQueryBuilder('plan')
-        .leftJoinAndSelect('plan.user', 'user')
-        .leftJoinAndSelect('plan.user_workouts', 'user_workouts')
-        .leftJoinAndSelect('plan.workout_logs', 'workout_logs')
-        .where('plan.id = :planId', {planId})
-        .getOne()
 
-        return result;
+    public getOne = async (planId: number): Promise<WorkoutPlan | null> => {
+        try {
+            const result = await this.workoutPlanRepo
+                .createQueryBuilder('plan')
+                .leftJoinAndSelect('plan.user', 'user')
+                .leftJoinAndSelect('plan.user_workouts', 'user_workouts')
+                .leftJoinAndSelect('plan.workout_logs', 'workout_logs')
+                .where('plan.id = :planId', { planId })
+                .getOne()
+
+            return result;
+        } catch (error) {
+            logger.error('Could not get plan', error);
+            throw error;
+        }
     }
 
     public getAll = async (userId: number): Promise<WorkoutPlan[] | null> => {
-        const results = await this.workoutPlanRepo
-        .createQueryBuilder('plan')
-        .leftJoinAndSelect('plan.user', 'user')
-        .leftJoinAndSelect('plan.user_workouts', 'user_workouts')
-        .where('user.id = :userId', {userId})
-        .getMany()
+        try {
+            const results = await this.workoutPlanRepo
+            .createQueryBuilder('plan')
+            .leftJoinAndSelect('plan.user_workouts', 'user_workouts') 
+            .where('plan.user.id = :userId', { userId }) 
+            .getMany()
 
-        return results;
+            return results.length ? results : [];
+        } catch (error) {
+            logger.error('Encountered an error when getting plans', error);
+            throw error;
+        }
     }
 
     public update = async (planId: number, updatedInfo: WorkoutPlanUpdate): Promise<WorkoutPlan> => {
