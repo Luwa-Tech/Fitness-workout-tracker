@@ -2,6 +2,8 @@ import { WorkoutPlanService } from "../service/workout-plan-service";
 import { logger } from "../log/logger";
 import { Request, Response } from 'express';
 import { UserService } from "../service/user-service";
+// import { EntityNotFoundError } from "typeorm";
+// import { TypeORMError } from "typeorm";
 
 export class WorkoutController {
     private workoutPlanService: WorkoutPlanService;
@@ -27,7 +29,7 @@ export class WorkoutController {
             }
             const result = await this.workoutPlanService.create(findUser, planInfo.name, planInfo.description, planInfo.duration_weeks, planInfo.exercises);
 
-            res.status(201).json({'message': 'New workout plan created', result});
+            res.status(201).json({ 'message': 'New workout plan created', result });
         } catch (error) {
             logger.error('Server error:', error);
             res.status(500).json({ 'message': 'Internal server error' });
@@ -39,16 +41,17 @@ export class WorkoutController {
         try {
             const user = req?.user;
 
-            let result = await this.workoutPlanService.getAll(user?.id);
+            const result = await this.workoutPlanService.getAll(user?.id);
 
-            if (result === null) {
-                result = [];
-            }
+            // if (!result) {
+            //     res.status(404).json({ 'message': 'No workout plans found' });
+            // }
 
-            res.status(200).send({plans: result});
+            res.status(200).send({ plans: result });
         } catch (error) {
             logger.error('Server error:', error);
             res.status(500).json({ 'message': 'Internal server error' });
+
         };
     }
 
@@ -56,9 +59,13 @@ export class WorkoutController {
         logger.info(`Incoming request at ${req.path}`);
         try {
             const planId = req.params.planId;
-
             const plan = await this.workoutPlanService.getOne(parseInt(planId));
-            res.status(200).send({plan: plan});
+
+            if (!plan) {
+                res.status(404).json({ 'message': 'Workout plan not found' });
+            }
+
+            res.status(200).send({ plan });
         } catch (error) {
             logger.error('Server error:', error);
             res.status(500).json({ 'message': 'Internal server error' });
@@ -76,7 +83,7 @@ export class WorkoutController {
             };
 
             const plan = await this.workoutPlanService.update(parseInt(planId), updatedPlanInfo);
-            res.status(200).send({plan: plan});
+            res.status(200).send({ plan: plan });
         } catch (error) {
             logger.error('Server error:', error);
             res.status(500).json({ 'message': 'Internal server error' });
@@ -89,7 +96,7 @@ export class WorkoutController {
             const planId = req.params.planId;
 
             await this.workoutPlanService.remove(parseInt(planId));
-            res.status(200).json({'message': `Workout plan with id ${planId} has been deleted`});
+            res.status(200).json({ 'message': `Workout plan with id ${planId} has been deleted` });
         } catch (error) {
             logger.error('Server error:', error);
             res.status(500).json({ 'message': 'Internal server error' });

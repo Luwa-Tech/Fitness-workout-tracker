@@ -85,7 +85,7 @@ describe('User Controller', () => {
                 password: 'hashed_password'
             };
             bcrypt.hash = jest.fn().mockResolvedValue('hashed_password');
-            
+
             userService.createUser.mockResolvedValueOnce(result as User);
 
             await userController.registerNewUser(req as Request, res as Response);
