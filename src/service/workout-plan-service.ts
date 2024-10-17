@@ -4,6 +4,7 @@ import { WorkoutPlan } from '../entity/workout_plan.entity';
 import dataSource from '../config/data-source';
 import { logger } from '../log/logger';
 import { UserWorkoutService } from './user-workout-service';
+import { ScheduleInfo, WorkoutScheduleService } from './schedule-service';
 
 /* 
     Stories:
@@ -21,6 +22,10 @@ import { UserWorkoutService } from './user-workout-service';
             name: Upper body workout,
             description: lorem ipsum dolor,
             duration_weeks: 4,
+            schedule: {
+                start_date: '',
+                end_date: ''
+            },
             exercises: [
                 {exerciseId: 1, sets: 3, reps: 14},
                 {exerciseId: 2, sets: 5, reps: 14},
@@ -40,27 +45,39 @@ export interface ExerciseInfo {
     exerciseId: number;
     sets: number;
     reps: number;
+};
+
+interface WorkoutPlanInfo {
+    name: string;
+    description: string;
+    duration_weeks: number;
+    schedule: ScheduleInfo;
+    exercises: ExerciseInfo[];
 }
 
 export class WorkoutPlanService {
     private workoutPlanRepo: Repository<WorkoutPlan>;
     private userWorkoutService: UserWorkoutService;
+    private scheduleService: WorkoutScheduleService;
 
-    constructor(userWorkoutService: UserWorkoutService) {
-        this.workoutPlanRepo = dataSource.getRepository(WorkoutPlan)
-        this.userWorkoutService = userWorkoutService
+    constructor(userWorkoutService: UserWorkoutService, scheduleService: WorkoutScheduleService) {
+        this.workoutPlanRepo = dataSource.getRepository(WorkoutPlan);
+        this.userWorkoutService = userWorkoutService;
+        this.scheduleService = scheduleService;
     }
 
-    public create = async (user: User, planName: string, planDescription: string, planDuration_weeks: number, exercises: ExerciseInfo[]): Promise<WorkoutPlan | null> => {
+    public create = async (user: User, planInfo: WorkoutPlanInfo): Promise<WorkoutPlan | null> => {
 
         const workoutPlan = this.workoutPlanRepo.create({
-            name: planName,
-            description: planDescription,
-            duration_weeks: planDuration_weeks
+            name: planInfo.name,
+            description: planInfo.description,
+            duration_weeks: planInfo.duration_weeks
         });
         workoutPlan.user = user;
         const createdPlan = await this.workoutPlanRepo.save(workoutPlan);
-        await this.userWorkoutService.createMany(workoutPlan, exercises);
+        await this.userWorkoutService.createMany(workoutPlan, planInfo.exercises);
+        await this.scheduleService.add(workoutPlan, planInfo.schedule);
+        
 
         // get created plan and return
         return await this.getOne(createdPlan.id);

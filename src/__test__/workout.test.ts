@@ -5,6 +5,7 @@ import { UserService } from '../service/user-service';
 import { UserWorkoutService } from '../service/user-workout-service';
 import { User } from '../entity/user.entity';
 import { WorkoutPlan } from '../entity/workout_plan.entity';
+import { WorkoutScheduleService } from '../service/schedule-service';
 
 jest.mock('../service/user-service', () => {
     return {
@@ -12,6 +13,14 @@ jest.mock('../service/user-service', () => {
             findUser: jest.fn()
         }))
     };
+});
+
+jest.mock('../service/schedule-service', () => {
+    return {
+        WorkoutScheduleService: jest.fn().mockImplementation(() => ({
+            add: jest.fn()
+        }))
+    }
 });
 
 jest.mock('../service/workout-plan-service', () => {
@@ -38,6 +47,7 @@ jest.mock('../service/user-workout-service', () => {
 describe('Workout plan', () => {
     let userWorkoutService: jest.Mocked<UserWorkoutService>;
     let userService: jest.Mocked<UserService>;
+    let scheduleService: jest.Mocked<WorkoutScheduleService>;
     let workoutPlanService: jest.Mocked<WorkoutPlanService>;
     let workoutController: WorkoutController;
     let req: Partial<Request>;
@@ -46,7 +56,8 @@ describe('Workout plan', () => {
 
     beforeEach(() => {
         userWorkoutService = new UserWorkoutService() as jest.Mocked<UserWorkoutService>;
-        workoutPlanService = new WorkoutPlanService(userWorkoutService) as jest.Mocked<WorkoutPlanService>;
+        scheduleService = new WorkoutScheduleService() as jest.Mocked<WorkoutScheduleService>;
+        workoutPlanService = new WorkoutPlanService(userWorkoutService, scheduleService) as jest.Mocked<WorkoutPlanService>;
         userService = new UserService() as jest.Mocked<UserService>;
         workoutController = new WorkoutController(workoutPlanService, userService);
 
