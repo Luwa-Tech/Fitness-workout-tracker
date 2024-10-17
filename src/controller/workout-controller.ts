@@ -2,8 +2,6 @@ import { WorkoutPlanService } from "../service/workout-plan-service";
 import { logger } from "../log/logger";
 import { Request, Response } from 'express';
 import { UserService } from "../service/user-service";
-// import { EntityNotFoundError } from "typeorm";
-// import { TypeORMError } from "typeorm";
 
 export class WorkoutController {
     private workoutPlanService: WorkoutPlanService;
@@ -27,7 +25,7 @@ export class WorkoutController {
                 res.status(404).json({ 'message': 'Login failed: User does not exist' });
                 return;
             }
-            const result = await this.workoutPlanService.create(findUser, planInfo.name, planInfo.description, planInfo.duration_weeks, planInfo.exercises);
+            const result = await this.workoutPlanService.create(findUser, planInfo);
 
             res.status(201).json({ 'message': 'New workout plan created', result });
         } catch (error) {
@@ -42,10 +40,6 @@ export class WorkoutController {
             const user = req?.user;
 
             const result = await this.workoutPlanService.getAll(user?.id);
-
-            // if (!result) {
-            //     res.status(404).json({ 'message': 'No workout plans found' });
-            // }
 
             res.status(200).send({ plans: result });
         } catch (error) {
