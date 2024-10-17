@@ -4,11 +4,13 @@ import { WorkoutPlanService } from '../service/workout-plan-service';
 import { UserService } from '../service/user-service';
 import { UserWorkoutService } from '../service/user-workout-service';
 import authoriseUser from '../middleware/authorize';
+import { WorkoutScheduleService } from '../service/schedule-service';
 
 const router = express.Router();
 
 const userWorkoutService = new UserWorkoutService();
-const workoutPlanService = new WorkoutPlanService(userWorkoutService);
+const scheduleService = new WorkoutScheduleService();
+const workoutPlanService = new WorkoutPlanService(userWorkoutService, scheduleService);
 const userService = new UserService();
 const workoutController = new WorkoutController(workoutPlanService, userService);
 
