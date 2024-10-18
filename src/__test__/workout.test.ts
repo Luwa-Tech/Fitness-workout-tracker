@@ -4,44 +4,21 @@ import { WorkoutPlanService } from '../service/workout-plan-service';
 import { UserService } from '../service/user-service';
 import { UserWorkoutService } from '../service/user-workout-service';
 import { User } from '../entity/user.entity';
-import { WorkoutPlan } from '../entity/workout_plan.entity';
 import { WorkoutScheduleService } from '../service/schedule-service';
 
-jest.mock('../service/user-service', () => {
-    return {
-        UserService: jest.fn().mockImplementation(() => ({
-            findUser: jest.fn()
-        }))
-    };
-});
+jest.mock('../service/user-service');
+jest.mock('../service/schedule-service');
+jest.mock('../service/workout-plan-service');
+jest.mock('../service/user-workout-service');
 
-jest.mock('../service/schedule-service', () => {
-    return {
-        WorkoutScheduleService: jest.fn().mockImplementation(() => ({
-            add: jest.fn()
-        }))
-    }
-});
-
-jest.mock('../service/workout-plan-service', () => {
-    return {
-        WorkoutPlanService: jest.fn().mockImplementation(() => ({
-            create: jest.fn(),
-            getOne: jest.fn(),
-            remove: jest.fn(),
-            update: jest.fn(),
-            getAll: jest.fn()
-        }))
-    };
-});
-
-jest.mock('../service/user-workout-service', () => {
-    return {
-        UserWorkoutService: jest.fn().mockImplementation(() => ({
-            createMany: jest.fn()
-        }))
-    };
-});
+// , () => {
+//     return {
+//         WorkoutPlanService: jest.fn().mockImplementation(() => ({
+//             create: jest.fn(),
+//             getOne: jest.fn(),
+//         }))
+//     };
+// }
 
 
 describe('Workout plan', () => {
@@ -96,7 +73,7 @@ describe('Workout plan', () => {
     describe('Create new workout plan', () => {
 
         it('Should return a 404 not found if user not in database', async () => {
-            userService.findUser.mockResolvedValue(null);
+            userService.findUser = jest.fn().mockResolvedValue(null);
 
             await workoutController.create(req as Request, res as Response);
 
@@ -177,7 +154,6 @@ describe('Workout plan', () => {
     });
 
     describe('Get one workout plan for a user', () => {
-
         it('Should return 404 when no workout plan is found', async () => {
             const request: Partial<Request> = {
                 params: {
@@ -185,7 +161,7 @@ describe('Workout plan', () => {
                 }
             };
 
-            workoutPlanService.getAll = jest.fn().mockResolvedValue(null);
+            workoutPlanService.getOne = jest.fn().mockResolvedValue(null);
             await workoutController.getOne(request as Request, res as Response)
 
             expect(res.status).toHaveBeenCalledWith(404)

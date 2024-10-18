@@ -26,11 +26,11 @@ export class Workout_log {
     user: User;
 
     @ManyToOne(() => WorkoutPlan, plan => plan.workout_logs)
-    workoutPlan: User;
+    workoutPlan: WorkoutPlan;
 
     @ManyToOne(() => Status, status => status.workout_logs)
     status: Status;
 
-    @ManyToOne(() => Workout_schedule, schedule => schedule.workout_logs)
-    workout_schedule: Workout_schedule;
+    // @ManyToOne(() => Workout_schedule, schedule => schedule.workout_logs)
+    // workout_schedule: Workout_schedule;
 }

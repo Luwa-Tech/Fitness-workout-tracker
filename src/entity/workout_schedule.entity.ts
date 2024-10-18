@@ -17,12 +17,6 @@ export class Workout_schedule {
     @OneToOne(() => WorkoutPlan, plan => plan.schedule)
     plan: WorkoutPlan;
 
-    @OneToMany(() => Workout_log, log => log.workout_schedule)
-    workout_logs: Workout_log[];
+    // @OneToMany(() => Workout_log, log => log.workout_schedule)
+    // workout_logs: Workout_log[];
 }
-
-// A workout schedule can have multiple
-// workout plans in cases where the user creates multiple plans
-// to target different aspect of the body on the same day.
-
-// But a workout plan can have only one schedule.

@@ -5,7 +5,6 @@ import { User } from '../entity/user.entity';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-
 jest.mock('bcrypt');
 jest.mock('jsonwebtoken');
 jest.mock('../env-variables', () => ({
