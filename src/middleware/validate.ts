@@ -14,11 +14,12 @@ export const validateUserLogin = [
 ];
 
 export const validate = (validations: ContextRunner[]) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
+  return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     for (let validation of validations) {
       const result = await validation.run(req);
       if (!result.isEmpty()) {
-        return res.status(400).json({ errors: result.array() });
+        res.status(400).json({ errors: result.array() });
+        return;
       }
     }
 

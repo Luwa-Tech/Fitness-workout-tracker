@@ -57,6 +57,7 @@ export class WorkoutController {
 
             if (!plan) {
                 res.status(404).json({ 'message': 'Workout plan not found' });
+                return;
             }
 
             res.status(200).send({ plan });

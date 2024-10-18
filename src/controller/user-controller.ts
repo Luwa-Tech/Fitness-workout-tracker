@@ -22,6 +22,7 @@ export class UserController {
         if (findUser) {
             logger.warn(`Registration attempt failed: Email ${data.email} already in use`);
             res.status(409).json({ 'message': 'User already exists' });
+            return;
         }
 
         try {
@@ -59,6 +60,7 @@ export class UserController {
             if (!match) {
                 logger.warn('Login attempt failed: Passwords do not match');
                 res.status(401).json({ 'message': 'Invalid password' });
+                return;
             }
 
             if (accessKey) {

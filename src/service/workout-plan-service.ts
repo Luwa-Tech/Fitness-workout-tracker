@@ -106,7 +106,6 @@ export class WorkoutPlanService {
                 .createQueryBuilder('plan')
                 .leftJoinAndSelect('plan.user', 'user')
                 .leftJoinAndSelect('plan.user_workouts', 'user_workouts')
-                .leftJoinAndSelect('plan.workout_logs', 'workout_logs')
                 .where('plan.id = :planId', { planId })
                 .getOne()
 

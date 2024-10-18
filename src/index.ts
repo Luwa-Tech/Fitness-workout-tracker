@@ -7,6 +7,7 @@ import dataSource from './config/data-source';
 import { logger } from './log/logger';
 import userRoute from './route/user-route';
 import workoutRoute from './route/workout-route';
+import workoutLogRoute from './route/workout-log-route';
 
 const server = express();
 const PORT = 5000;
@@ -18,6 +19,7 @@ server.use(express.json());
 
 server.use('/api/v1', userRoute);
 server.use('/api/v1/user/workout-plan', workoutRoute);
+server.use('/api/v1/user/workout-log', workoutLogRoute);
 
 dataSource.initialize()
     .then(() => {
