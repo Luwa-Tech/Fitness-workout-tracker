@@ -16,7 +16,7 @@ The Fitness Workout Tracker is a comprehensive tool that helps users plan, track
 
 ## Database Design
 [Lucid chart link](https://lucid.app/lucidchart/763404e7-26f5-4a1a-b5d5-d4f389d7e0b2/edit?viewport_loc=-1167%2C-714%2C1983%2C921%2C0_0&invitationId=inv_1ad63f63-1e72-423f-91b5-4e56703de65d)
-![Design](./db-design/db-design/Fitness-Workout-Tracker.png)
+![Design](./db-design/Fitness-Workout-Tracker.png)
 
 ## Installation
 1 - Clone the repository:
