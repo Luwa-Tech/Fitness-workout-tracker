@@ -56,12 +56,5 @@ npm run test
 ## Improvements
 - Centralized Error Handling: Although the project handles errors on a per-route basis, it would benefit from a centralized error handling middleware. This would ensure consistency across the entire app and avoid duplication of error handling logic.
 
-#### Current Setup:
-Errors are handled inside each controller or service method.
-Inconsistent error messages and response codes are possible across different routes.
-
-#### Proposed Improvement:
-Create a global error handling middleware that catches any unhandled errors and sends a uniform response to the client. This would also allow for better handling of specific errors like database connection failures, validation issues, and more.
-
 ## Resources
 [A Philosophy For Effective Error Handling](https://openupthecloud.com/error-handling-javascript/#google_vignette): This article was particularly helpful during the development process in understanding how to implement efficient error handling and best practices.
